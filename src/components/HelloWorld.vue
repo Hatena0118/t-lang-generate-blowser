@@ -12,7 +12,6 @@
                 rows="6"
                 auto-grow
               />
-              <v-switch v-model="showGrid" label="show grid" />
             </v-card-text>
           </v-card>
         </v-col>
@@ -21,7 +20,6 @@
           <v-card>
             <v-card-title>output</v-card-title>
             <v-card-text>
-              <!-- 表示エリア -->
               <div class="preview">
                 <svg>
                   <g v-for="(item, idx) in converted" :key="idx" viewBox="0 0 60 60" class="glyph" style="fill:none;stroke:#000000;stroke-width:3;">
@@ -31,6 +29,26 @@
                 </svg>
                 </div>
             </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <v-card class="pa-4" rounded="xl" elevation="3">
+            <v-row align="center" justify="space-between">
+              <v-col cols="12" md="6">
+                <div>
+                  <h3>explanation</h3>
+                  <p>
+                    This page provides a function that converts  my original language(hereinafter, ”T-lang”) from Latin characters.
+                    But T-lang doesn't have a character handled for Latin characters , so I recommend input referring to this image.
+                  </p>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <img src="/public/T-Lang-without-guideLine.png" alt="サンプル画像" style="width:100%;border-radius:16px;">
+              </v-col>
+            </v-row>
           </v-card>
         </v-col>
       </v-row>
