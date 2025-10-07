@@ -8,8 +8,11 @@ import Fonts from 'unplugin-fonts/vite'
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
 
+const base = '/t-lang-generate-blowser/';
+
 // https://vitejs.dev/config/
 export default defineConfig({
+  base,
   plugins: [
     Vue({
       template: { transformAssetUrls },
@@ -29,6 +32,7 @@ export default defineConfig({
       },
     }),
   ],
+  build:{ outDir:'docs'},
   optimizeDeps: {
     exclude: ['vuetify'],
   },
