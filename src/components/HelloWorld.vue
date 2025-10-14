@@ -41,7 +41,15 @@
                   <h3>explanation</h3>
                   <p>
                     This page provides a function that converts  my original language(hereinafter, ”T-lang”) from Latin characters.
-                    But T-lang doesn't have a character handled for Latin characters , so I recommend input referring to this image.
+                    However, T-lang does not natively use Latin characters, so I recommend using the image for reference when inputting text.
+                  </p>
+                  <h4>input explanation</h4>
+                  <p>
+                    This writing system is an abugida, possessing several characteristics, but the most distinctive is that all letters have a horizontal line drawn above them, and letters written like the Devanagari “shiroreka” are written connected. As a rule, when only consonant letters are written, the inherent vowel A is implicitly assumed. When the vowel differs from A, an appropriate diacritic indicating the substitute vowel sound is added.
+                    In cases where a syllable consists solely of a vowel, a “zero consonant” (represented by “-”) is used in writing. Under these grammatical rules, all vowels are entered as marks attached to the preceding consonant.
+                    The numerical notation system has two primary characteristics. First, when writing numbers, the horizontal line at the top of the characters is cut off to make the digits more clearly visible. Second, the system employs a method that enables counting up to 99 within a single character space.
+                    Although this language uses a decimal (base-10) system, when expressing two-digit numbers, an additional notation corresponding to the tens place (10-90) is written in relation to the horizontal stroke on top of the character to represent the second digit.
+                    The above outlines the basic notation rules of T-lang. Since this converter operates in accordance with these conventions, please take care with both pronunciation and input procedures.
                   </p>
                 </div>
               </v-col>
