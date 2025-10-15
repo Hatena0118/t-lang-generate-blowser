@@ -8,9 +8,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-let prop = defineProps<{shift:number}>()
+let prop = defineProps<{shiftX:number,shiftY:number}>()
 let transformStyle = computed(()=>
 {
-    return "translate("+(prop.shift * 40) + ")"
+    return `translate(${(prop.shiftX * 40)} ${(prop.shiftY * 50)})`
 })
 </script>

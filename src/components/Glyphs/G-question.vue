@@ -1,7 +1,6 @@
 <template>
     <g :transform=transformStyle>
-        <path d="M 5 10 h 35"></path>
-        <path d="M 22.5 18 l -10 10 l 10 10 l 10 -10 l -11.05 -11.05"></path>
+        <path d="M 0 10 h 40 m -20 0 v 20 h 10 v 15 h -20 v -8 h 10"></path>
     </g>
 </template>
 <script setup lang="ts">

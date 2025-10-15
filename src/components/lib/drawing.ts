@@ -1,0 +1,27 @@
+import type { DisplayToken, Token } from "./models";
+
+export function DrawGlyphs(tokens: Token[]) :DisplayToken[] {
+    let shiftx = 0, shifty = 0;
+    let ret : DisplayToken[] = [];
+    for (let i = 0; i < tokens.length; i++) {
+        const token = tokens[i];
+        switch (token!.kind) {
+            case 'Phoneme':
+                const Glyph : DisplayToken= { Glyph: token!, row: shifty, column: shiftx };
+                ret.push(Glyph);
+                shiftx += 1;
+                break;
+            case 'Number':
+                const GlyphNum : DisplayToken= { Glyph: token!, row: shifty, column: shiftx };
+                ret.push(GlyphNum);
+                shiftx += 1;
+                break;
+            case 'Mark':
+                const GlyphMark : DisplayToken= { Glyph: token!, row: shifty, column: shiftx };
+                ret.push(GlyphMark);
+                shiftx += 1;
+                break;
+        }
+    }
+    return ret;
+}
