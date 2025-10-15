@@ -5,29 +5,30 @@ export type MarkList = keyof typeof MarkObj;
 export type NumberList = keyof typeof NumberObj;
 
 export function isVowelIn(v: string): v is VowelList {
-    return v in Object.keys(VowelObj);
+    return Object.keys(VowelObj).includes(v);
 }
 export function isConsonantIn(v: string): v is ConsonantList {
-    return v in Object.keys(ConsonantObj);
+    console.log([v,Object.keys(ConsonantObj).includes(v),v,Object.keys(ConsonantObj)]);
+    return Object.keys(ConsonantObj).includes(v);
 }
 export function isMarkIn(v: string): v is MarkList {
-    return v in Object.keys(MarkObj);
+    return Object.keys(MarkObj).includes(v);
 }
 export function isNumberIn(v: string): v is NumberList {
-    return v in Object.keys(NumberObj);
+    return Object.keys(NumberObj).includes(v);
 }
 
 export function isVowelOut(v: string): v is typeof VowelObj[VowelList] {
-    return v in Object.values(VowelObj);
+    return Object.values(VowelObj).includes(v as any);
 }
 export function isConsonantOut(v: string): v is typeof ConsonantObj[ConsonantList] {
-    return v in Object.values(ConsonantObj);
+    return Object.values(ConsonantObj).includes(v as any);
 }
 export function isMarkOut(v: string): v is typeof MarkObj[MarkList] {
-    return v in Object.values(MarkObj);
+    return Object.values(MarkObj).includes(v as any);
 }
 export function isNumberOut(v: string): v is typeof NumberObj[NumberList] {
-    return v in Object.values(NumberObj);
+    return Object.values(NumberObj).includes(v as any);
 }
 
 export type GlyphKind = 'Vowel'|'Consonant'|'Mark'|'Number'

@@ -1,3 +1,4 @@
+export{default as GlyphA}from "./G-A.vue";
 export{default as GlyphB}from "./G-B.vue";
 export{default as GlyphcedillaC}from "./G-cedillaC.vue";
 export{default as GlyphD}from "./G-D.vue";
@@ -22,12 +23,14 @@ export{default as GlyphU}from "./G-U.vue";
 export{default as GlyphV}from "./G-V.vue";
 export{default as GlyphY}from "./G-Y.vue";
 export{default as GlyphZ}from "./G-Z.vue";
+export{default as Glyphzeroconsonant}from "./G-zeroconsonant.vue";
 export{default as GlyphumlautA}from "./G-umlautA.vue";
 export{default as GlyphumlautO}from "./G-umlautO.vue";
 export{default as GlyphumlautU}from "./G-umlautU.vue";
-export{default as Glyphzeroconsonant}from "./G-zeroconsonant.vue";
+export{default as Glyphspace}from "./G-space.vue"
 export{default as Glyphcomma}from "./G-comma.vue";
 export{default as Glyphquestion}from "./G-question.vue";
+export{default as Num0}from "./N-zero.vue" ;
 export{default as Num1}from "./N-one.vue" ;
 export{default as Num2}from "./N-two.vue" ;
 export{default as Num3}from "./N-three.vue" ;

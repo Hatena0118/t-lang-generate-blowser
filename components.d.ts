@@ -8,6 +8,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    CallGlyphs: typeof import('./src/components/Glyphs/CallGlyphs.vue')['default']
+    GA: typeof import('./src/components/Glyphs/G-A.vue')['default']
     GB: typeof import('./src/components/Glyphs/G-B.vue')['default']
     GCedillaC: typeof import('./src/components/Glyphs/G-cedillaC.vue')['default']
     GCedillaS: typeof import('./src/components/Glyphs/G-cedillaS.vue')['default']
@@ -29,6 +31,7 @@ declare module 'vue' {
     GQuestion: typeof import('./src/components/Glyphs/G-question.vue')['default']
     GR: typeof import('./src/components/Glyphs/G-R.vue')['default']
     GS: typeof import('./src/components/Glyphs/G-S.vue')['default']
+    GSpace: typeof import('./src/components/Glyphs/G-space.vue')['default']
     GT: typeof import('./src/components/Glyphs/G-T.vue')['default']
     GU: typeof import('./src/components/Glyphs/G-U.vue')['default']
     GUmlautA: typeof import('./src/components/Glyphs/G-umlautA.vue')['default']
@@ -57,5 +60,6 @@ declare module 'vue' {
     NThree: typeof import('./src/components/Glyphs/N-three.vue')['default']
     NTwenty: typeof import('./src/components/Glyphs/N-twenty.vue')['default']
     NTwo: typeof import('./src/components/Glyphs/N-two.vue')['default']
+    NZero: typeof import('./src/components/Glyphs/N-zero.vue')['default']
   }
 }

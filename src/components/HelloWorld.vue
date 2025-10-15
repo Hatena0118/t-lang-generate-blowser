@@ -21,10 +21,8 @@
             <v-card-title>output</v-card-title>
             <v-card-text>
               <div class="preview">
-                <svg>
-                  <g v-for="(item, idx) in converted" :key="idx" viewBox="0 0 60 60" class="glyph" style="fill:none;stroke:#000000;stroke-width:3;">
-                    <component item.Glyph :shift="item.colomn"/>
-                  </g>
+                <svg style="fill:none;stroke:#000000;stroke-width:3;">
+                  <CallGlyphs v-for="(token, index) in converted" :key="index" :token="token" class="glyph"viewBox="0 0 60 60" />
                 </svg>
                 </div>
             </v-card-text>
@@ -68,10 +66,17 @@ import { ref, computed } from 'vue'
 import * as Glyphs from "./Glyphs"
 import { parseInput, Tokenize } from './lib/parser'
 import { DrawGlyphs } from './lib/drawing'
+import CallGlyphs from './Glyphs/CallGlyphs.vue'
 
 const input = ref('')
 const converted = computed(() => {
-  return DrawGlyphs(Tokenize(parseInput(input.value)));
+  try{
+    return DrawGlyphs(Tokenize(parseInput(input.value)));
+  } 
+  catch(e){
+    console.error(e);
+    return [];
+  }
 })
 
 </script>
