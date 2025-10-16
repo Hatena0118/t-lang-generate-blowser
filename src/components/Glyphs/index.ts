@@ -28,6 +28,7 @@ export{default as GlyphumlautO}from "./G-umlautO.vue";
 export{default as GlyphumlautU}from "./G-umlautU.vue";
 export{default as Glyphcomma}from "./G-comma.vue";
 export{default as Glyphquestion}from "./G-question.vue";
+export{default as Glyphlongdash}from "./G-longdash.vue";
 export{default as Num0}from "./N-zero.vue" ;
 export{default as Num1}from "./N-one.vue" ;
 export{default as Num2}from "./N-two.vue" ;

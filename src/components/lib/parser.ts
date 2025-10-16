@@ -1,9 +1,12 @@
-import {type Token, type GlyphOut, type GlyphIn, isVowelIn, isConsonantIn, isMarkIn, isNumberIn, isUniqueIn} from "./models";
-import { ConsonantObj, conversionvaluelist, MarkObj, NumberOnesObj, VowelObj, UniqueObj, ConversionNumberList} from "./mapping";
+import {type Token, type GlyphOut, type GlyphIn, isVowelIn, isConsonantIn, isMarkIn, isNumberIn, isUniqueIn, isSpecialVowelIn,} from "./models";
+import { ConsonantObj, conversionvaluelist, MarkObj, NumberOnesObj, VowelObj, UniqueObj, ConversionNumberList, SpecialVowelObj} from "./mapping";
 
 export function ToGlyphIn(v: string): GlyphIn {
     if (isVowelIn(v)) {
         return { kind: 'Vowel', value: v };
+    }
+    else if (isSpecialVowelIn(v)) {
+        return { kind:'SpecialVowel', value: v };
     }
     else if (isConsonantIn(v)) {
         return { kind: 'Consonant', value: v };
@@ -29,6 +32,7 @@ export function parseInput(input: string): GlyphOut[] {
     let ret: GlyphOut[] = glyphIns.map(v=>{
         switch(v.kind) {
             case 'Vowel': return {kind:'Vowel' ,value:VowelObj[v.value]};
+            case 'SpecialVowel': return {kind:'SpecialVowel' ,value:SpecialVowelObj[v.value]};
             case 'Consonant': return {kind:'Consonant' ,value:ConsonantObj[v.value]};
             case 'Unique': return {kind:'Unique' ,value:UniqueObj[v.value]};
             case 'Mark': return {kind:'Mark' ,value:MarkObj[v.value]};
@@ -39,6 +43,7 @@ export function parseInput(input: string): GlyphOut[] {
 export function Tokenize(glyphouts: GlyphOut[]): Token[] {
     let ret: Token[] = [];
     for (let i = 0; i < glyphouts.length; i++) {
+        console.log(i);
         const glyphfirst = glyphouts[i];
         const glyphsecond = glyphouts[i+1];
         switch(glyphfirst!.kind)
@@ -47,9 +52,10 @@ export function Tokenize(glyphouts: GlyphOut[]): Token[] {
                 if(glyphsecond?.kind==='Vowel'){
                     const GlyphToken :Token = {kind:'Phoneme', idC: glyphfirst! ,idV: glyphsecond };
                     ret.push(GlyphToken);
+                    i++;
                     break;
                 }
-                else if(glyphsecond?.kind==='Unique'){
+                else if(glyphsecond?.kind==='SpecialVowel'){
                     const GlyphToken :Token = {kind:'Phoneme', idC: glyphfirst! ,idV: {kind:'Vowel', value:'GlyphA'} };
                     ret.push(GlyphToken);
                     i++;
@@ -57,8 +63,16 @@ export function Tokenize(glyphouts: GlyphOut[]): Token[] {
                     ret.push(UniqueToken);
                     break;
                 }
+            case 'Vowel':
+                const GlyphToken :Token = {kind:'Phoneme', idC: {kind:'Consonant', value:'Glyphzeroconsonant'} ,idV: glyphfirst! as any };
+                ret.push(GlyphToken);
+                break;
+            case 'SpecialVowel':
+                const GlyphTokenSp :Token = {kind:'Unique', id: glyphfirst!};
+                ret.push(GlyphTokenSp);
+                break;
             case 'Unique':
-                const UniqueToken :Token = {kind:'Unique', id: glyphfirst! as any};
+                const UniqueToken :Token = {kind:'Unique', id: glyphfirst!};
                 ret.push(UniqueToken);
                 break;
             case 'Mark':

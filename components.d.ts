@@ -22,6 +22,7 @@ declare module 'vue' {
     GJ: typeof import('./src/components/Glyphs/G-J.vue')['default']
     GK: typeof import('./src/components/Glyphs/G-K.vue')['default']
     GL: typeof import('./src/components/Glyphs/G-L.vue')['default']
+    GLongdash: typeof import('./src/components/Glyphs/G-longdash.vue')['default']
     GM: typeof import('./src/components/Glyphs/G-M.vue')['default']
     GN: typeof import('./src/components/Glyphs/G-N.vue')['default']
     GO: typeof import('./src/components/Glyphs/G-O.vue')['default']

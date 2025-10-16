@@ -22,6 +22,13 @@ export function DrawGlyphs(tokens: Token[]) :DisplayToken[] {
                 shiftx += 1;
                 break;
             case 'Mark':
+                if(token?.value === 'Glyphlongdash'){
+                    shiftx-=1;
+                    const GlyphMark : DisplayToken= { Glyph: token!, row: shifty, column: shiftx };
+                    ret.push(GlyphMark);
+                    shiftx += 1;
+                    break;
+                }
                 const GlyphMark : DisplayToken= { Glyph: token!, row: shifty, column: shiftx };
                 ret.push(GlyphMark);
                 shiftx += 1;

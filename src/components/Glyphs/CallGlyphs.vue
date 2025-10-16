@@ -4,8 +4,9 @@
 <script setup lang="ts">
 import { computed, type Component, type ComputedRef } from 'vue';
 import * as Glyphs from ".";
-import type { ConsonantOut, DisplayToken, GlyphOut, MarkOut, NumberOnesOut, VowelOut, UniqueOut, NumberTensOut} from '../lib/models';
+import type { ConsonantOut, DisplayToken, GlyphOut, MarkOut, NumberOnesOut, VowelOut, UniqueOut, NumberTensOut, SpecialVowelOut} from '../lib/models';
 import type { Value } from 'vuetify/lib/components/VAutocomplete/VAutocomplete.mjs';
+import { SpecialVowelObj } from '../lib/mapping';
 
 
 let prop = defineProps<{token :DisplayToken}>()
@@ -14,6 +15,12 @@ const VowelconversionTable : Record<Exclude<VowelOut["value"], 'GlyphA'>, Compon
     'GlyphU': Glyphs.GlyphU,
     'GlyphE': Glyphs.GlyphE,
     'GlyphO': Glyphs.GlyphO,
+}
+
+const SpecialVowelconversionTable : Record<SpecialVowelOut["value"], Component> = {
+    'GlyphumlautA': Glyphs.GlyphumlautA,
+    'GlyphumlautO': Glyphs.GlyphumlautO,
+    'GlyphumlautU': Glyphs.GlyphumlautU,
 }
 
 const ConsonantConversionTable : Record<ConsonantOut["value"],Component>= {
@@ -42,6 +49,7 @@ const ConsonantConversionTable : Record<ConsonantOut["value"],Component>= {
 const MarkConversionTable : Record<MarkOut["value"],Component>= {
     'Glyphcomma': Glyphs.Glyphcomma,
     'Glyphquestion': Glyphs.Glyphquestion,
+    'Glyphlongdash': Glyphs.Glyphlongdash,
 }
 const NumberOnesConversionTable : Record<NumberOnesOut["value"],Component>= {
     'Num0': Glyphs.Num0,
@@ -68,14 +76,12 @@ const NumberTensConversionTable : Record<NumberTensOut["value"],Component>= {
 }
 
 const UniqueConversionTable : Record<UniqueOut["value"],Component>= {
-    'GlyphumlautA': Glyphs.GlyphumlautA,
-    'GlyphumlautO': Glyphs.GlyphumlautO,
-    'GlyphumlautU': Glyphs.GlyphumlautU,
     'GlyphN:': Glyphs.GlyphN
 }
 
 const ConversionTable : Record<Exclude<GlyphOut["value"], 'GlyphA'>, Component> = {
     ...VowelconversionTable,
+    ...SpecialVowelconversionTable,
     ...ConsonantConversionTable,
     ...MarkConversionTable,
     ...NumberOnesConversionTable,
@@ -86,10 +92,13 @@ const ConversionTable : Record<Exclude<GlyphOut["value"], 'GlyphA'>, Component> 
 let toComponent = (token : DisplayToken) : Component[]=>{
     switch(token.Glyph.kind){
         case "Phoneme":return [ConsonantConversionTable[token.Glyph.idC.value], VowelconversionTable[token.Glyph.idV.value as Exclude<VowelOut["value"], 'GlyphA'>]]
-        case "Unique": return [UniqueConversionTable[token.Glyph.id.value]]
+        case "Unique":
+            if(token.Glyph.id.kind==='SpecialVowel'){
+            return [SpecialVowelconversionTable[token.Glyph.id.value as SpecialVowelOut["value"]]];}
+            else{return [UniqueConversionTable[token.Glyph.id.value]];}
         case "Number": 
-        if(token.Glyph.idTens){return [NumberTensConversionTable[token.Glyph.idTens.value],NumberOnesConversionTable[token.Glyph.idOnes.value]]}
-        else{return [NumberOnesConversionTable[token.Glyph.idOnes.value]]}
+            if(token.Glyph.idTens){return [NumberTensConversionTable[token.Glyph.idTens.value],NumberOnesConversionTable[token.Glyph.idOnes.value]]}
+            else{return [NumberOnesConversionTable[token.Glyph.idOnes.value]]}
         case "Mark": return [ConversionTable[token.Glyph.value]]
     }
 }
