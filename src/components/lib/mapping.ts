@@ -4,9 +4,6 @@ export const VowelObj = {
   'u': 'GlyphU',
   'e': 'GlyphE',
   'o': 'GlyphO',
-  'ö': 'GlyphumlautO',
-  'ü': 'GlyphumlautU',
-  'ä': 'GlyphumlautA'
 } as const;
 
 export const ConsonantObj = {
@@ -34,7 +31,6 @@ export const ConsonantObj = {
 } as const;
 
 export  const MarkObj  = {
-  ' ': 'Glyphspace',
   ',': 'Glyphcomma',
   '?': 'Glyphquestion',
 } as const;
@@ -61,10 +57,20 @@ export const NumberObj = {
   '90': 'Num90',
 } as const;
 
+export const UniqueObj = {
+
+  'ö': 'GlyphumlautO',
+  'ü': 'GlyphumlautU',
+  'ä': 'GlyphumlautA',
+  'ŋ': 'GlyphN:'
+
+} as const;
+
 export const conversionvaluelist: Record<string,string> = {
   'ou': 'ö',
   'ui': 'ü',
   'ae': 'ä',
   'ch': 'ç',
-  'sh': 'ş'
+  'sh': 'ş',
+  'nn': 'ŋ'
 }

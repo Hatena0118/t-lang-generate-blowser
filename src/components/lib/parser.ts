@@ -1,5 +1,5 @@
-import { type DisplayToken, type Token, type ConsonantIn, type VowelIn, type MarkIn, type ConsonantOut, type VowelOut, type NumberIn, type NumberOut, type GlyphOut, type GlyphIn, isVowelIn, isConsonantIn, isMarkIn, isNumberIn} from "./models";
-import { ConsonantObj, conversionvaluelist, MarkObj, NumberObj, VowelObj } from "./mapping";
+import {type Token, type ConsonantIn, type VowelIn, type MarkIn, type ConsonantOut, type VowelOut, type NumberIn, type NumberOut, type GlyphOut, type GlyphIn, isVowelIn, isConsonantIn, isMarkIn, isNumberIn, isUniqueIn} from "./models";
+import { ConsonantObj, conversionvaluelist, MarkObj, NumberObj, VowelObj, UniqueObj} from "./mapping";
 
 export function ToGlyphIn(v: string): GlyphIn {
     if (isVowelIn(v)) {
@@ -7,6 +7,9 @@ export function ToGlyphIn(v: string): GlyphIn {
     }
     else if (isConsonantIn(v)) {
         return { kind: 'Consonant', value: v };
+    }
+    else if (isUniqueIn(v)) {
+        return { kind:'Unique', value:v };
     }
     else if (isMarkIn(v)) {
         return { kind: 'Mark', value: v };
@@ -19,11 +22,15 @@ export function ToGlyphIn(v: string): GlyphIn {
 
 export function parseInput(input: string): GlyphOut[] {
     const Normalizedinp = input.normalize('NFC').toLowerCase().replace(new RegExp(Object.keys(conversionvaluelist).join("|"), "g"), match => conversionvaluelist[match]!);
-    let glyphIns = Normalizedinp.split('').map(v => {var g = ToGlyphIn(v); if (g instanceof Error) { throw g; } return g; });
+
+    let glyphIns = Normalizedinp.split('').map(
+        v => {var g = ToGlyphIn(v); {if (g instanceof Error) { throw g; } return g; }});
+
     let ret: GlyphOut[] = glyphIns.map(v=>{
         switch(v.kind) {
             case 'Vowel': return {kind:'Vowel' ,value:VowelObj[v.value]};
             case 'Consonant': return {kind:'Consonant' ,value:ConsonantObj[v.value]};
+            case 'Unique': return {kind:'Unique' ,value:UniqueObj[v.value]};
             case 'Mark': return {kind:'Mark' ,value:MarkObj[v.value]};
             case 'Number': return {kind:'Number' ,value:NumberObj[v.value]};
         }});
@@ -44,6 +51,10 @@ export function Tokenize(glyphouts: GlyphOut[]): Token[] {
                     break;
                 }
                 throw new Error("Invalid input: Consonant must be followed by Vowel");
+            case 'Unique':
+                const UniqueToken :Token = {kind:'Unique', id: glyphfirst! };
+                ret.push(UniqueToken);
+                break;
             case 'Mark':
                 ret.push(glyphfirst!);
                 break;

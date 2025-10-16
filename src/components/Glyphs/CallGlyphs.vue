@@ -4,20 +4,16 @@
 <script setup lang="ts">
 import { computed, type Component, type ComputedRef } from 'vue';
 import * as Glyphs from ".";
-import type { ConsonantOut, DisplayToken, GlyphOut, MarkOut, NumberOut, VowelOut } from '../lib/models';
+import type { ConsonantOut, DisplayToken, GlyphOut, MarkOut, NumberOut, VowelOut, UniqueOut} from '../lib/models';
 import type { Value } from 'vuetify/lib/components/VAutocomplete/VAutocomplete.mjs';
 
 
 let prop = defineProps<{token :DisplayToken}>()
-const VowelconversionTable : Record<VowelOut["value"], Component> = {
-    'GlyphA': Glyphs.GlyphA,
+const VowelconversionTable : Record<Exclude<VowelOut["value"], 'GlyphA'>, Component> = {
     'GlyphI': Glyphs.GlyphI,
     'GlyphU': Glyphs.GlyphU,
     'GlyphE': Glyphs.GlyphE,
     'GlyphO': Glyphs.GlyphO,
-    'GlyphumlautA': Glyphs.GlyphumlautA,
-    'GlyphumlautO': Glyphs.GlyphumlautO,
-    'GlyphumlautU': Glyphs.GlyphumlautU,
 }
 
 const ConsonantConversionTable : Record<ConsonantOut["value"],Component>= {
@@ -44,7 +40,6 @@ const ConsonantConversionTable : Record<ConsonantOut["value"],Component>= {
     'Glyphzeroconsonant': Glyphs.Glyphzeroconsonant,
 }
 const MarkConversionTable : Record<MarkOut["value"],Component>= {
-    'Glyphspace': Glyphs.Glyphspace,
     'Glyphcomma': Glyphs.Glyphcomma,
     'Glyphquestion': Glyphs.Glyphquestion,
 }
@@ -69,16 +64,25 @@ const NumberConversionTable : Record<NumberOut["value"],Component>= {
     'Num80': Glyphs.Num80,
     'Num90': Glyphs.Num90,
 }
-const ConversionTable : Record<GlyphOut["value"], Component> = {
+
+const UniqueConversionTable : Record<UniqueOut["value"],Component>= {
+    'GlyphumlautA': Glyphs.GlyphumlautA,
+    'GlyphumlautO': Glyphs.GlyphumlautO,
+    'GlyphumlautU': Glyphs.GlyphumlautU,
+    'GlyphN:': Glyphs.GlyphN
+}
+const ConversionTable : Record<Exclude<GlyphOut["value"], 'GlyphA'>, Component> = {
     ...VowelconversionTable,
     ...ConsonantConversionTable,
     ...MarkConversionTable,
     ...NumberConversionTable,
+    ...UniqueConversionTable,
 }
 
 let toComponent = (token : DisplayToken) : Component[]=>{
     switch(token.Glyph.kind){
-        case "Phoneme":return [ConsonantConversionTable[token.Glyph.idC.value], VowelconversionTable[token.Glyph.idV.value]]
+        case "Phoneme":return [ConsonantConversionTable[token.Glyph.idC.value], VowelconversionTable[token.Glyph.idV.value as Exclude<VowelOut["value"], 'GlyphA'>]]
+        case "Unique": return [UniqueConversionTable[token.Glyph.id.value]]
         case "Number": return [NumberConversionTable[token.Glyph.idTens.value],NumberConversionTable[token.Glyph.idOnes.value]]
         case "Mark": return [ConversionTable[token.Glyph.value]]
     }

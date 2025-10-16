@@ -11,6 +11,11 @@ export function DrawGlyphs(tokens: Token[]) :DisplayToken[] {
                 ret.push(Glyph);
                 shiftx += 1;
                 break;
+            case 'Unique':
+                const GlyphUni : DisplayToken= { Glyph: token!, row: shifty, column: shiftx };  
+                ret.push(GlyphUni);
+                shiftx += 1;
+                break;
             case 'Number':
                 const GlyphNum : DisplayToken= { Glyph: token!, row: shifty, column: shiftx };
                 ret.push(GlyphNum);
