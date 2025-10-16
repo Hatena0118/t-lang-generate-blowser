@@ -1,4 +1,4 @@
-import {type Token, type ConsonantIn, type VowelIn, type MarkIn, type ConsonantOut, type VowelOut, type NumberIn, type NumberOnesOut, type GlyphOut, type GlyphIn, isVowelIn, isConsonantIn, isMarkIn, isNumberIn, isUniqueIn} from "./models";
+import {type Token, type GlyphOut, type GlyphIn, isVowelIn, isConsonantIn, isMarkIn, isNumberIn, isUniqueIn} from "./models";
 import { ConsonantObj, conversionvaluelist, MarkObj, NumberOnesObj, VowelObj, UniqueObj, ConversionNumberList} from "./mapping";
 
 export function ToGlyphIn(v: string): GlyphIn {
@@ -49,9 +49,16 @@ export function Tokenize(glyphouts: GlyphOut[]): Token[] {
                     ret.push(GlyphToken);
                     break;
                 }
-                throw new Error("Invalid input: Consonant must be followed by Vowel");
+                else if(glyphsecond?.kind==='Unique'){
+                    const GlyphToken :Token = {kind:'Phoneme', idC: glyphfirst! ,idV: {kind:'Vowel', value:'GlyphA'} };
+                    ret.push(GlyphToken);
+                    i++;
+                    const UniqueToken :Token = {kind:'Unique', id: glyphsecond! };
+                    ret.push(UniqueToken);
+                    break;
+                }
             case 'Unique':
-                const UniqueToken :Token = {kind:'Unique', id: glyphfirst! };
+                const UniqueToken :Token = {kind:'Unique', id: glyphfirst! as any};
                 ret.push(UniqueToken);
                 break;
             case 'Mark':
