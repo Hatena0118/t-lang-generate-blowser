@@ -1,3 +1,5 @@
+import type { NumberOnesOut, NumberTensOut } from "./models";
+
 export const VowelObj = {
   'a': 'GlyphA',
   'i': 'GlyphI',
@@ -35,7 +37,7 @@ export  const MarkObj  = {
   '?': 'Glyphquestion',
 } as const;
 
-export const NumberObj = {
+export const NumberOnesObj = {
   '0': 'Num0',
   '1': 'Num1',
   '2': 'Num2',
@@ -46,6 +48,9 @@ export const NumberObj = {
   '7': 'Num7',
   '8': 'Num8',
   '9': 'Num9',
+} as const;
+
+export const NumberTensObj = {
   '10': 'Num10',
   '20': 'Num20',
   '30': 'Num30',
@@ -73,4 +78,16 @@ export const conversionvaluelist: Record<string,string> = {
   'ch': 'ç',
   'sh': 'ş',
   'nn': 'ŋ'
+}
+
+export const ConversionNumberList: Record<Exclude<NumberOnesOut["value"],'Num0'>, NumberTensOut["value"]> = {
+'Num1':'Num10',
+'Num2':'Num20',
+'Num3':'Num30',
+'Num4':'Num40',
+'Num5':'Num50',
+'Num6':'Num60',
+'Num7':'Num70',
+'Num8':'Num80',
+'Num9':'Num90',
 }

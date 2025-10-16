@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { computed, type Component, type ComputedRef } from 'vue';
 import * as Glyphs from ".";
-import type { ConsonantOut, DisplayToken, GlyphOut, MarkOut, NumberOut, VowelOut, UniqueOut} from '../lib/models';
+import type { ConsonantOut, DisplayToken, GlyphOut, MarkOut, NumberOnesOut, VowelOut, UniqueOut, NumberTensOut} from '../lib/models';
 import type { Value } from 'vuetify/lib/components/VAutocomplete/VAutocomplete.mjs';
 
 
@@ -43,7 +43,7 @@ const MarkConversionTable : Record<MarkOut["value"],Component>= {
     'Glyphcomma': Glyphs.Glyphcomma,
     'Glyphquestion': Glyphs.Glyphquestion,
 }
-const NumberConversionTable : Record<NumberOut["value"],Component>= {
+const NumberOnesConversionTable : Record<NumberOnesOut["value"],Component>= {
     'Num0': Glyphs.Num0,
     'Num1': Glyphs.Num1,
     'Num2': Glyphs.Num2,
@@ -54,6 +54,8 @@ const NumberConversionTable : Record<NumberOut["value"],Component>= {
     'Num7': Glyphs.Num7,
     'Num8': Glyphs.Num8,
     'Num9': Glyphs.Num9,
+}
+const NumberTensConversionTable : Record<NumberTensOut["value"],Component>= {
     'Num10': Glyphs.Num10,
     'Num20': Glyphs.Num20,
     'Num30': Glyphs.Num30,
@@ -71,11 +73,13 @@ const UniqueConversionTable : Record<UniqueOut["value"],Component>= {
     'GlyphumlautU': Glyphs.GlyphumlautU,
     'GlyphN:': Glyphs.GlyphN
 }
+
 const ConversionTable : Record<Exclude<GlyphOut["value"], 'GlyphA'>, Component> = {
     ...VowelconversionTable,
     ...ConsonantConversionTable,
     ...MarkConversionTable,
-    ...NumberConversionTable,
+    ...NumberOnesConversionTable,
+    ...NumberTensConversionTable,
     ...UniqueConversionTable,
 }
 
@@ -83,7 +87,9 @@ let toComponent = (token : DisplayToken) : Component[]=>{
     switch(token.Glyph.kind){
         case "Phoneme":return [ConsonantConversionTable[token.Glyph.idC.value], VowelconversionTable[token.Glyph.idV.value as Exclude<VowelOut["value"], 'GlyphA'>]]
         case "Unique": return [UniqueConversionTable[token.Glyph.id.value]]
-        case "Number": return [NumberConversionTable[token.Glyph.idTens.value],NumberConversionTable[token.Glyph.idOnes.value]]
+        case "Number": 
+        if(token.Glyph.idTens){return [NumberTensConversionTable[token.Glyph.idTens.value],NumberOnesConversionTable[token.Glyph.idOnes.value]]}
+        else{return [NumberOnesConversionTable[token.Glyph.idOnes.value]]}
         case "Mark": return [ConversionTable[token.Glyph.value]]
     }
 }

@@ -1,5 +1,5 @@
-import {type Token, type ConsonantIn, type VowelIn, type MarkIn, type ConsonantOut, type VowelOut, type NumberIn, type NumberOut, type GlyphOut, type GlyphIn, isVowelIn, isConsonantIn, isMarkIn, isNumberIn, isUniqueIn} from "./models";
-import { ConsonantObj, conversionvaluelist, MarkObj, NumberObj, VowelObj, UniqueObj} from "./mapping";
+import {type Token, type ConsonantIn, type VowelIn, type MarkIn, type ConsonantOut, type VowelOut, type NumberIn, type NumberOnesOut, type GlyphOut, type GlyphIn, isVowelIn, isConsonantIn, isMarkIn, isNumberIn, isUniqueIn} from "./models";
+import { ConsonantObj, conversionvaluelist, MarkObj, NumberOnesObj, VowelObj, UniqueObj, ConversionNumberList} from "./mapping";
 
 export function ToGlyphIn(v: string): GlyphIn {
     if (isVowelIn(v)) {
@@ -32,11 +32,10 @@ export function parseInput(input: string): GlyphOut[] {
             case 'Consonant': return {kind:'Consonant' ,value:ConsonantObj[v.value]};
             case 'Unique': return {kind:'Unique' ,value:UniqueObj[v.value]};
             case 'Mark': return {kind:'Mark' ,value:MarkObj[v.value]};
-            case 'Number': return {kind:'Number' ,value:NumberObj[v.value]};
+            case 'Number': return {kind:'Number' ,value:NumberOnesObj[v.value]};
         }});
     return ret;
 }
-
 export function Tokenize(glyphouts: GlyphOut[]): Token[] {
     let ret: Token[] = [];
     for (let i = 0; i < glyphouts.length; i++) {
@@ -59,15 +58,18 @@ export function Tokenize(glyphouts: GlyphOut[]): Token[] {
                 ret.push(glyphfirst!);
                 break;
             case 'Number':
-                if(glyphsecond?.kind==='Number'){
-                    const GlyphToken :Token = {kind:'Number', idTens: glyphfirst! ,idOnes: glyphsecond };
+                if(glyphsecond?.kind==='Number' && glyphfirst!.value !=='Num0'){
+                    const GlyphToken :Token = {kind:'Number', idTens: {kind:'Number' ,value:ConversionNumberList[glyphfirst!.value]} ,idOnes: glyphsecond};
                     ret.push(GlyphToken);
                     i++;
                     break;
                 }
-                const GlyphToken :Token = {kind:'Number', idTens: {kind:'Number',value:'Num0'}, idOnes: glyphfirst! };
-                ret.push(GlyphToken);
-                break;
+                else{
+                    const GlyphToken :Token = {kind:'Number', idOnes: glyphfirst!};
+                    ret.push(GlyphToken);
+                    break;
+                }
+                
         }
     }
     return ret;
