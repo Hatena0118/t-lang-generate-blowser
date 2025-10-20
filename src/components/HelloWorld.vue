@@ -21,8 +21,8 @@
             <v-card-title>output</v-card-title>
             <v-card-text>
               <div class="preview">
-                <svg style="fill:none;stroke:#000000;stroke-width:3;">
-                  <CallGlyphs v-for="(token, index) in converted" :key="index" :token="token" class="glyph"viewBox="0 0 60 60" />
+                <svg xmlns="http://www.w3.org/2000/svg"viewBox="0 0 382 172"preserveAspectRatio="xMinYMin meet"style="fill:none;stroke:#000000;stroke-width:3; width:100%; height:194px;">
+                  <CallGlyphs v-for="(token, index) in converted" :key="index" :token="token"/>
                 </svg>
                 </div>
             </v-card-text>
@@ -51,7 +51,7 @@
                 </div>
               </v-col>
               <v-col cols="12" md="6">
-                <img src="/public/T-Lang-without-guideLine.png" alt="sample image" style="width:100%;border-radius:16px;">
+                <img src="/src/T-Lang-without-guideLine.png" alt="sample image" style="width:100%;border-radius:16px;">
               </v-col>
             </v-row>
           </v-card>
@@ -63,7 +63,6 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import * as Glyphs from "./Glyphs"
 import { parseInput, Tokenize } from './lib/parser'
 import { DrawGlyphs } from './lib/drawing'
 import CallGlyphs from './Glyphs/CallGlyphs.vue'

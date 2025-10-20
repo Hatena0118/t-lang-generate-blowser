@@ -5,8 +5,6 @@
 import { computed, type Component, type ComputedRef } from 'vue';
 import * as Glyphs from ".";
 import type { ConsonantOut, DisplayToken, GlyphOut, MarkOut, NumberOnesOut, VowelOut, UniqueOut, NumberTensOut, SpecialVowelOut} from '../lib/models';
-import type { Value } from 'vuetify/lib/components/VAutocomplete/VAutocomplete.mjs';
-import { SpecialVowelObj } from '../lib/mapping';
 
 
 let prop = defineProps<{token :DisplayToken}>()
@@ -46,7 +44,7 @@ const ConsonantConversionTable : Record<ConsonantOut["value"],Component>= {
     'GlyphZ': Glyphs.GlyphZ,
     'Glyphzeroconsonant': Glyphs.Glyphzeroconsonant,
 }
-const MarkConversionTable : Record<MarkOut["value"],Component>= {
+const MarkConversionTable : Record<Exclude<MarkOut["value"],'EndOfLine'>,Component>= {
     'Glyphcomma': Glyphs.Glyphcomma,
     'Glyphquestion': Glyphs.Glyphquestion,
     'Glyphlongdash': Glyphs.Glyphlongdash,

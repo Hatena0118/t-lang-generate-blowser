@@ -5,6 +5,7 @@ export function DrawGlyphs(tokens: Token[]) :DisplayToken[] {
     let ret : DisplayToken[] = [];
     for (let i = 0; i < tokens.length; i++) {
         const token = tokens[i];
+        if(i>0 && i%9 == 0){shifty +=1; shiftx = 0;}
         switch (token!.kind) {
             case 'Phoneme':
                 const Glyph : DisplayToken= { Glyph: token!, row: shifty, column: shiftx };
@@ -22,6 +23,11 @@ export function DrawGlyphs(tokens: Token[]) :DisplayToken[] {
                 shiftx += 1;
                 break;
             case 'Mark':
+                if(token?.value === 'EndOfLine'){
+                    shifty += 1;
+                    shiftx = 0;
+                    break;
+                }
                 if(token?.value === 'Glyphlongdash'){
                     shiftx-=1;
                     const GlyphMark : DisplayToken= { Glyph: token!, row: shifty, column: shiftx };

@@ -11,7 +11,6 @@ let prop = defineProps<{shiftX:number,shiftY:number}>()
 let transformStyle = computed(()=>
 {
     console.log([prop.shiftX,prop.shiftY])
-    //return `translate(${(prop.shiftX * 40)} ${(prop.shiftY * 50)})`
-    return `translate(${(prop.shiftX * 40)} 0)`
+    return `translate(${(prop.shiftX * 40)} ${(prop.shiftY * 50)})`
 })
 </script>

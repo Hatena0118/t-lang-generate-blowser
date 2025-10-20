@@ -41,7 +41,8 @@ export const ConsonantObj = {
 export  const MarkObj  = {
   ',': 'Glyphcomma',
   '?': 'Glyphquestion',
-  '~': 'Glyphlongdash'
+  '~': 'Glyphlongdash',
+  '/n': 'EndOfLine'
 } as const;
 
 export const NumberOnesObj = {
@@ -79,7 +80,7 @@ export const conversionvaluelist: Record<string,string> = {
   'ae': 'ä',
   'ch': 'ç',
   'sh': 'ş',
-  'nn': 'ŋ'
+  'nn': 'ŋ',
 }
 
 export const ConversionNumberList: Record<Exclude<NumberOnesOut["value"],'Num0'>, NumberTensOut["value"]> = {
