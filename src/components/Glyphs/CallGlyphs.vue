@@ -77,7 +77,7 @@ const UniqueConversionTable : Record<UniqueOut["value"],Component>= {
     'GlyphN:': Glyphs.GlyphN
 }
 
-const ConversionTable : Record<Exclude<GlyphOut["value"], 'GlyphA'>, Component> = {
+const ConversionTable : Record<Exclude<GlyphOut["value"], 'GlyphA'| 'EndOfLine'>, Component> = {
     ...VowelconversionTable,
     ...SpecialVowelconversionTable,
     ...ConsonantConversionTable,
@@ -97,7 +97,7 @@ let toComponent = (token : DisplayToken) : Component[]=>{
         case "Number": 
             if(token.Glyph.idTens){return [NumberTensConversionTable[token.Glyph.idTens.value],NumberOnesConversionTable[token.Glyph.idOnes.value]]}
             else{return [NumberOnesConversionTable[token.Glyph.idOnes.value]]}
-        case "Mark": return [ConversionTable[token.Glyph.value]]
+        case "Mark": return [MarkConversionTable[token.Glyph.value as Exclude<MarkOut["value"],'EndOfLine'>]]
     }
 }
 
