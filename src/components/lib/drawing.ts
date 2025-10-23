@@ -1,11 +1,15 @@
 import type { DisplayToken, Token } from "./models";
 
-export function DrawGlyphs(tokens: Token[]) :DisplayToken[] {
+export function DrawGlyphs(tokens: Token[], containerWidth: number, glyphWidth = 60, gap = 6) :DisplayToken[] {
     let shiftx = 0, shifty = 0;
     let ret : DisplayToken[] = [];
+
+    const slotWidth = glyphWidth + gap;
+    const columnsPerRow = Math.max(1, Math.floor(Math.max(0, containerWidth) / slotWidth));
+    console.log(containerWidth)
     for (let i = 0; i < tokens.length; i++) {
         const token = tokens[i];
-        if(i>0 && i%9 == 0){shifty +=1; shiftx = 0;}
+        if (shiftx >= columnsPerRow) { shifty += 1; shiftx = 0; }
         switch (token!.kind) {
             case 'Phoneme':
                 const Glyph : DisplayToken= { Glyph: token!, row: shifty, column: shiftx };
@@ -26,6 +30,10 @@ export function DrawGlyphs(tokens: Token[]) :DisplayToken[] {
                 if(token?.value === 'EndOfLine'){
                     shifty += 1;
                     shiftx = 0;
+                    break;
+                }
+                if(token?.value === 'Space'){
+                    shiftx += 1;
                     break;
                 }
                 if(token?.value === 'Glyphlongdash'){

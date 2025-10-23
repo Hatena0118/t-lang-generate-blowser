@@ -20,7 +20,7 @@
           <v-card>
             <v-card-title>output</v-card-title>
             <v-card-text>
-              <div class="preview">
+              <div class="preview" ref="previewRef">
                 <svg xmlns="http://www.w3.org/2000/svg"viewBox="0 0 382 172"preserveAspectRatio="xMinYMin meet"style="fill:none;stroke:#000000;stroke-width:3; width:100%; height:194px;">
                   <CallGlyphs v-for="(token, index) in converted" :key="index" :token="token"/>
                 </svg>
@@ -62,15 +62,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed,onMounted, onBeforeUnmount, nextTick} from 'vue'
 import { parseInput, Tokenize } from './lib/parser'
 import { DrawGlyphs } from './lib/drawing'
 import CallGlyphs from './Glyphs/CallGlyphs.vue'
 
 const input = ref('')
+
+// 親要素幅を保持する ref
+const previewRef = ref<HTMLElement | null>(null)
+const containerWidth = ref(0)
+let ro: ResizeObserver | null = null
+
+onMounted(async() => {
+  await nextTick();
+  if (previewRef.value) {
+    // 初期値
+    containerWidth.value = previewRef.value.clientWidth
+    // ResizeObserver で幅変化を追跡
+    ro = new ResizeObserver(entries => {
+      for (const e of entries) {
+        const w = (e.contentRect?.width) ?? previewRef.value?.clientWidth ?? 0
+        containerWidth.value = Math.floor(w)
+      }
+    })
+    ro.observe(previewRef.value)
+  }
+})
+onBeforeUnmount(() => {
+  if (ro && previewRef.value) ro.unobserve(previewRef.value)
+  ro = null
+})
+
 const converted = computed(() => {
   try{
-    return DrawGlyphs(Tokenize(parseInput(input.value)));
+    return DrawGlyphs(Tokenize(parseInput(input.value)), containerWidth.value, 40,0);
   } 
   catch(e){
     console.error(e);

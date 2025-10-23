@@ -42,6 +42,7 @@ export  const MarkObj  = {
   ',': 'Glyphcomma',
   '?': 'Glyphquestion',
   '~': 'Glyphlongdash',
+  ' ': 'Space',
   '/n': 'EndOfLine'
 } as const;
 

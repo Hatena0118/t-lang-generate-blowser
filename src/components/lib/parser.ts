@@ -24,13 +24,11 @@ export function ToGlyphIn(v: string): GlyphIn {
 }
 
 export function parseInput(input: string): GlyphOut[] {
-    // "/n" を実際の改行に変換しておく（ユーザが "/n" と入力した場合の対応）
     const preprocessed = input.replace(/\/n/g, '\n');
     const Normalizedinp = preprocessed.normalize('NFC').toLowerCase().replace(new RegExp(Object.keys(conversionvaluelist).join("|"), "g"), match => conversionvaluelist[match]!);
     let glyphIns: GlyphIn[] = [];
     for (let i = 0; i < Normalizedinp.length; i++) {
         const ch = Normalizedinp[i];
-        // CRLF を一つの改行として扱う
         if (ch === '\r' && Normalizedinp[i + 1] === '\n') {
             glyphIns.push({ kind: 'Mark', value: '/n' });
             i++;
@@ -42,7 +40,6 @@ export function parseInput(input: string): GlyphOut[] {
             continue;
         }
         const g = ToGlyphIn(ch!);
-        // 通常の文字は既存の変換で判定
         if (g instanceof Error) {throw g;}
         glyphIns.push(g);
     }
