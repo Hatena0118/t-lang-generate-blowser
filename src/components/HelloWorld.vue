@@ -21,10 +21,10 @@
             <v-card-title>output</v-card-title>
             <v-card-text>
               <div class="preview" ref="previewRef">
-                <svg xmlns="http://www.w3.org/2000/svg"viewBox="0 0 382 172"preserveAspectRatio="xMinYMin meet"style="fill:none;stroke:#000000;stroke-width:3; width:100%; height:194px;">
+                <svg xmlns="http://www.w3.org/2000/svg" :viewBox="`0 0 ${svgWidthPx} ${svgHeight}`" preserveAspectRatio="xMinYMin meet" :style="{ fill: 'none', stroke: '#000000', strokeWidth: 3, width: svgWidthPx + 'px', height: svgHeight + 'px', display: 'block' }">
                   <CallGlyphs v-for="(token, index) in converted" :key="index" :token="token"/>
                 </svg>
-                </div>
+              </div>
             </v-card-text>
           </v-card>
         </v-col>
@@ -104,6 +104,20 @@ const converted = computed(() => {
   }
 })
 
+// --- added: compute svg height from rows produced by DrawGlyphs ---
+const glyphWidth = 40;
+const glyphHeight = 50; // must match DrawGlyphs' glyphHeight
+const glyphGap = 0     // must match DrawGlyphs' gap
+const slotWidth = glyphWidth + glyphGap;
+const columnsPerRow = computed(() => Math.max(1, Math.floor(Math.max(0, containerWidth.value) / slotWidth)));
+const svgWidthPx = computed(() => columnsPerRow.value * slotWidth);
+const svgHeight = computed(() => {
+  const arr = converted.value
+  if (!arr || arr.length === 0) return glyphHeight
+  const maxRow = arr.reduce((m, t) => Math.max(m, t.row), -1)
+  // add one row and multiply by per-row height
+  return (maxRow + 1) * (glyphHeight + glyphGap)
+})
 </script>
 <style>
 .preview {
@@ -112,7 +126,10 @@ const converted = computed(() => {
   flex-wrap:wrap;
   gap:0px;
   align-items:start;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
+.preview svg { display:block; } /* inline SVG の余白を消す */
 .glyph {
   border: 1px dashed transparent;
 }
