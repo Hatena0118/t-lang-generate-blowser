@@ -113,8 +113,9 @@ const columnsPerRow = computed(() => Math.max(1, Math.floor(Math.max(0, containe
 const svgWidthPx = computed(() => columnsPerRow.value * slotWidth);
 const svgHeight = computed(() => {
   const arr = converted.value
-  if (!arr || arr.length === 0) return glyphHeight
+  if (!arr || arr.length === 0) return glyphHeight*3
   const maxRow = arr.reduce((m, t) => Math.max(m, t.row), -1)
+  if(maxRow < 3) return glyphHeight*3
   // add one row and multiply by per-row height
   return (maxRow + 1) * (glyphHeight + glyphGap)
 })
